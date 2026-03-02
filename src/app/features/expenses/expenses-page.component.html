@@ -1,0 +1,132 @@
+<section class="expenses">
+  <header class="expenses__header">
+    <div>
+      <h2>Despesas</h2>
+      <p>Cadastre e gerencie suas despesas por categoria.</p>
+    </div>
+    
+  </header>
+
+  <section class="expenses__content">
+    <form class="form" (ngSubmit)="submit()" novalidate>
+      <div class="form__row">
+        <div class="form__field">
+          <label for="description">Descrição</label>
+          <input
+            id="description"
+            type="text"
+            [(ngModel)]="form().description"
+            name="description"
+            placeholder="Ex: Supermercado, cinema..."
+            required
+          />
+        </div>
+
+        <div class="form__field form__field--small">
+          <label for="amount">Valor</label>
+          <input
+            id="amount"
+            type="number"
+            min="0"
+            step="0.01"
+            [(ngModel)]="form().amount"
+            name="amount"
+            required
+          />
+        </div>
+
+        <div class="form__field form__field--small">
+          <label for="category">Categoria</label>
+          <select
+            id="category"
+            [(ngModel)]="form().category"
+            name="category"
+            required
+          >
+            <option value="">Selecione</option>
+            @for (category of categories; track category) {
+              <option [value]="category">{{ category }}</option>
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="form__actions">
+        <button
+          type="submit"
+          class="button button--primary"
+          [disabled]="loading()"
+        >
+          {{ isEditing() ? 'Atualizar despesa' : 'Adicionar despesa' }}
+        </button>
+        @if (isEditing()) {
+          <button
+            type="button"
+            class="button button--ghost"
+            (click)="cancelEdit()"
+            [disabled]="loading()"
+          >
+            Cancelar edição
+          </button>
+        }
+      </div>
+
+      @if (error()) {
+        <p class="form__error">{{ error() }}</p>
+      }
+    </form>
+
+    <section class="expenses__list">
+      @if (loading()) {
+        <p class="expenses__status">Carregando despesas...</p>
+      } @else if (!loading() && expenses().length === 0) {
+        <p class="expenses__status">Nenhuma despesa cadastrada ainda.</p>
+      } @else {
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Descrição</th>
+                <th>Categoria</th>
+                <th>Data</th>
+                <th class="table__cell--right">Valor</th>
+                <th class="table__cell--right">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (expense of expenses(); track expense.id) {
+                <tr [ngClass]="{ 'table__row--editing': editingId() === expense.id }">
+                  <td>{{ expense.description }}</td>
+                  <td>{{ expense.category }}</td>
+                  <td>{{ expense.date | date: 'dd/MM/yyyy' }}</td>
+                  <td class="table__cell--right">
+                    {{ expense.amount | currency: 'BRL' : 'symbol' : '1.2-2' }}
+                  </td>
+                  <td class="table__cell--right table__cell--actions">
+                    <button
+                      type="button"
+                      class="button button--small"
+                      (click)="edit(expense)"
+                      [disabled]="loading()"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      type="button"
+                      class="button button--small button--danger"
+                      (click)="remove(expense)"
+                      [disabled]="loading()"
+                    >
+                      Remover
+                    </button>
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      }
+    </section>
+  </section>
+</section>
+
