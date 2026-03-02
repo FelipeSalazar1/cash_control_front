@@ -9,7 +9,7 @@ const API_BASE_URL = environment.API_BASE_URL;
 
 @Injectable({
   providedIn: 'root'
-})
+}) 
 export class ExpenseService {
   private readonly http = inject(HttpClient);
   private readonly baseUrl = `${API_BASE_URL}/expenses`;
