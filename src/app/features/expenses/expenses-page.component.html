@@ -105,19 +105,37 @@
                   <td class="table__cell--right table__cell--actions">
                     <button
                       type="button"
-                      class="button button--small"
+                      class="button button--small button--icon"
                       (click)="edit(expense)"
                       [disabled]="loading()"
+                      aria-label="Editar despesa"
                     >
-                      Editar
+                      <svg
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                        class="button__icon"
+                      >
+                        <path
+                          d="M3 14.25V17h2.75L14.81 7.94l-2.75-2.75L3 14.25Zm12.71-7.96a1 1 0 0 0 0-1.41l-1.59-1.59a1 1 0 0 0-1.41 0l-1.12 1.12 2.75 2.75 1.37-1.37Z"
+                        />
+                      </svg>
                     </button>
                     <button
                       type="button"
-                      class="button button--small button--danger"
+                      class="button button--small button--icon button--danger"
                       (click)="remove(expense)"
                       [disabled]="loading()"
+                      aria-label="Remover despesa"
                     >
-                      Remover
+                      <svg
+                        viewBox="0 0 20 20"
+                        aria-hidden="true"
+                        class="button__icon"
+                      >
+                        <path
+                          d="M7 2h6a1 1 0 0 1 1 1v1h3v2h-1l-.7 9.1A2 2 0 0 1 13.31 18H6.7a2 2 0 0 1-1.99-1.9L4 6H3V4h3V3a1 1 0 0 1 1-1Zm1 4v8h2V6H8Zm4 0v8h2V6h-2Z"
+                        />
+                      </svg>
                     </button>
                   </td>
                 </tr>
