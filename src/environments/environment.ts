@@ -1,3 +1,4 @@
 export const environment = {
-  API_BASE_URL: 'cashcontrolback-production.up.railway.app'
+  // URL base da API em produção (Railway)
+  API_BASE_URL: 'https://cashcontrolback-production.up.railway.app/api/v1'
 };

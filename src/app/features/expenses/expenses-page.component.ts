@@ -1,5 +1,12 @@
 import { AsyncPipe, CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  signal,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { Category, Expense } from '../../core/models/expense.model';
@@ -17,7 +24,7 @@ interface ExpenseFormValue {
   imports: [NgIf, NgForOf, NgClass, FormsModule, AsyncPipe, CurrencyPipe, DatePipe],
   templateUrl: './expenses-page.component.html',
   styleUrl: './expenses-page.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpensesPageComponent {
   private readonly expenseService = inject(ExpenseService);
@@ -32,7 +39,7 @@ export class ExpensesPageComponent {
   protected readonly form = signal<ExpenseFormValue>({
     description: '',
     amount: null,
-    category: ''
+    category: '',
   });
 
   protected readonly isEditing = computed(() => this.editingId() !== null);
@@ -55,7 +62,7 @@ export class ExpensesPageComponent {
       error: () => {
         this.error.set('Erro ao carregar despesas. Tente novamente.');
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -64,7 +71,7 @@ export class ExpensesPageComponent {
     this.form.set({
       description: expense.description,
       amount: expense.amount,
-      category: expense.category
+      category: expense.category,
     });
   }
 
@@ -81,7 +88,7 @@ export class ExpensesPageComponent {
       error: () => {
         this.error.set('Erro ao remover despesa. Tente novamente.');
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -99,7 +106,7 @@ export class ExpensesPageComponent {
     const payload = {
       description: value.description,
       amount: value.amount,
-      category: value.category as Category
+      category: value.category as Category,
     };
 
     const id = this.editingId();
@@ -115,7 +122,7 @@ export class ExpensesPageComponent {
       error: () => {
         this.error.set('Erro ao salvar despesa. Tente novamente.');
         this.loading.set(false);
-      }
+      },
     });
   }
 
@@ -128,8 +135,7 @@ export class ExpensesPageComponent {
     this.form.set({
       description: '',
       amount: null,
-      category: ''
+      category: '',
     });
   }
 }
-

@@ -12,7 +12,7 @@ const API_BASE_URL = environment.API_BASE_URL;
 }) 
 export class ExpenseService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = `${API_BASE_URL}`;
+  private readonly baseUrl = `${API_BASE_URL}/expenses`;
 
   findAll(): Observable<Expense[]> {
     return this.http.get<Expense[]>(this.baseUrl);
