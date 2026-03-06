@@ -1,9 +1,10 @@
-import { AsyncPipe, CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf } from '@angular/common';
+import { AsyncPipe, CurrencyPipe, DatePipe, NgClass, NgForOf, NgIf, isPlatformBrowser } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  OnInit,
+  PLATFORM_ID,
   computed,
-  effect,
   inject,
   signal,
 } from '@angular/core';
@@ -26,8 +27,9 @@ interface ExpenseFormValue {
   styleUrl: './expenses-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ExpensesPageComponent {
+export class ExpensesPageComponent implements OnInit {
   private readonly expenseService = inject(ExpenseService);
+  private readonly platformId = inject(PLATFORM_ID);
 
   protected readonly categories = Object.values(Category);
 
@@ -44,15 +46,16 @@ export class ExpensesPageComponent {
 
   protected readonly isEditing = computed(() => this.editingId() !== null);
 
-  constructor() {
-    effect(() => {
+  ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
       this.loadExpenses();
-    });
+    }
   }
 
   protected loadExpenses(): void {
     this.loading.set(true);
     this.error.set(null);
+    this.expenses.set([]);
 
     this.expenseService.findAll().subscribe({
       next: (data) => {
